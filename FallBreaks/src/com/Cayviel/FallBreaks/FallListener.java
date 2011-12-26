@@ -1,8 +1,5 @@
 package com.Cayviel.FallBreaks;
 
-//import net.minecraft.server.Item;
-//import org.bukkit.inventory.PlayerInventory;
-//import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityListener;
@@ -10,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 
 
 public class FallListener extends EntityListener{
@@ -20,13 +17,13 @@ public class FallListener extends EntityListener{
 	}
 	String world = FallBreaks.properties.getProperty("level-name");
 	World w;
-	
+
 	public void onEntityDamage(EntityDamageEvent Ifell){
 		if (Ifell.getEntity() instanceof Player){
 			if (Ifell.getCause().equals(DamageCause.FALL)){
 
 				Player player = (Player)Ifell.getEntity();
-
+			
 				if (w == null){	w = player.getWorld();}
 					
 					Block BlockOn = player.getLocation().subtract(0, 1, 0).getBlock();
@@ -39,7 +36,9 @@ public class FallListener extends EntityListener{
 						if ((BreakConfig.bootreq)&&(booteq==0)){return;}
 						
 						if (BreakConfig.bootmining){
-							bootmine(Blockreq, booteq, BlockOn);
+							if (Blockreq<=booteq){
+								bootmine(BlockOn, player);
+							}
 						}						
 						if (BreakConfig.boottier){
 							if (Blockreq<=booteq){
@@ -50,12 +49,8 @@ public class FallListener extends EntityListener{
 				}
 			}
 		}
-	
-	void bootmine (int Blockreq, int booteq, Block BlockOn){
-		int BlockOnData = BlockOn.getData();		
-			if (Blockreq<=booteq){
-				net.minecraft.server.Block.byId[BlockOn.getTypeId()].g(((CraftWorld)w).getHandle(), BlockOn.getX(), BlockOn.getY(), BlockOn.getZ(), BlockOnData);
-			}
+	void bootmine (Block BlockOn, Player player){
+			((CraftPlayer)player).getHandle().itemInWorldManager.c(BlockOn.getX(), BlockOn.getY(), BlockOn.getZ());
 	}
 	
 	 int matreq(int itemid){
