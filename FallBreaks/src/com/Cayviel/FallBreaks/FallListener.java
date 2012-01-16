@@ -32,16 +32,17 @@ public class FallListener extends EntityListener{
 
 						int booteq = getbooteq(player.getInventory().getBoots().getTypeId());
 						int Blockreq = matreq(BlockOn.getTypeId());
+						boolean canBreak = (Blockreq <= booteq);
 						
 						if ((BreakConfig.bootreq)&&(booteq==0)){return;}
-						
+
 						if (BreakConfig.bootmining){
-							if (Blockreq<=booteq){
+							if (canBreak){
 								bootmine(BlockOn, player);
 							}
 						}						
 						if (BreakConfig.boottier){
-							if (Blockreq<=booteq){
+							if (canBreak){
 								BlockOn.setTypeId(0);
 							}
 						}else{BlockOn.setTypeId(0);}
@@ -52,32 +53,61 @@ public class FallListener extends EntityListener{
 	void bootmine (Block BlockOn, Player player){
 			((CraftPlayer)player).getHandle().itemInWorldManager.c(BlockOn.getX(), BlockOn.getY(), BlockOn.getZ());
 	}
-	
 	 int matreq(int itemid){
+		 
 		switch (itemid){
-		case 45: return 1;
-		case 24: return 1;
+		
 		case 01: return 1;
-		case 30: return 1;
-		case 48: return 1;
 		case 16: return 1;
+		case 23: return 1;
+		case 24: return 1;
+		case 25: return 1;
 		case 43: return 1;
+		case 30: return 1;
 		case 44: return 1;
+		case 45: return 1;
+		case 48: return 1;
+		case 61: return 1;
+		case 62: return 1;
+		case 71: return 1;
+		case 101: return 1;
+		case 112: return 1;
+		case 113: return 1;
+		case 116: return 1;
+		case 117: return 1;
+		case 121: return 1;
+		
+		//stairs
+		case 53: return 1;
+		case 67: return 1;
+		case 108: return 1;
+		case 109: return 1;
+		case 114: return 1;
+
+		
 		case 15: return 2;
-		case 22: return 2;
 		case 21: return 2;
+		case 22: return 2;
+		case 118: return 2;
+				
 		case 14: return 3;
+		case 41: return 3;
+		case 42: return 3;
+		case 56: return 3;
 		case 73: return 3;
 		case 74: return 3;
-		case 56: return 3;
-		case 42: return 3;		
-		case 41: return 3;
+
 		case 57: return 3;
+		
 		case 49: return 4;
+		case 122: return 4; 
+		
+		case 120: return 5;
+		
 		default: return 0;
 		}
 	 }
-	 
+
 	int getbooteq(int itemid){
 		switch (itemid) {
 		case 301: return 1;
@@ -87,5 +117,5 @@ public class FallListener extends EntityListener{
 		case 317: return 1;
 		default:  return 0;
 		}
-	}
+	}	
 }
