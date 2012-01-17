@@ -86,11 +86,11 @@ public class BreakConfig{
    }
    public static boolean getdefaultbreak(){
        Configuration config = load();
-       return config.getBoolean("Break On Fall.DEFAULT",false);
+       return config.getBoolean("Breakables.DEFAULT",false);
    }
    
    public static boolean getbreak(String materialname){
        Configuration config = load();
-       return config.getBoolean("Break On Fall."+materialname,getdefaultbreak());
+       return config.getBoolean("Breakables."+materialname,getdefaultbreak());
    }
 }

@@ -26,7 +26,7 @@ public class FallListener extends EntityListener{
 		boolean drop = true; 
 		
 		if (! BreakConfig.getbreak(blockOn.getType().toString())) return;					// if block is not breakable don't break
-		if (BreakConfig.breakReqDamageTier && (Blockreq*2 > Ifell.getDamage())) return; 	// if requires pain, but pain level not met, don't break
+		if (BreakConfig.breakReqDamageTier && (Blockreq*3 > Ifell.getDamage())) return; 	// if requires pain, but pain level not met, don't break
 		if (BreakConfig.breakReqBoots && (booteq == 0)) return;								// if boots are required to break, but no boots are present, don't break
 		if (BreakConfig.breakReqBootTier && !bootsMeetReq) return;							// if boots tiering is required for break but boot tier is too low, don't break
 		
