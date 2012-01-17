@@ -18,9 +18,9 @@ public class FallBreaks extends JavaPlugin{
     public static File serverproperties = new File("server.properties");
 	public static Properties properties = new Properties();
 	public static Logger log = Logger.getLogger("Minecraft");
-	
+	public static PluginManager pm; 
 	public static BreakConfig breakconfig = new BreakConfig(configFile,directory);
-	
+
 	@Override
 	public void onDisable() {
 		getServer().getLogger().info("Disabling FallBreaks...");	
@@ -29,6 +29,7 @@ public class FallBreaks extends JavaPlugin{
 	
 	@Override
 	public void onEnable() {
+		pm = this.getServer().getPluginManager();
 		
 	    try {
 			FileInputStream inputfile = new FileInputStream(serverproperties);
@@ -39,8 +40,7 @@ public class FallBreaks extends JavaPlugin{
 		}	
 	    breakconfig.configCheck();		
 		getServer().getLogger().info("Enabling FallBreaks...");		
-		PluginManager pm = getServer().getPluginManager();
-		FallListener falllisten = new FallListener(pm);
+		FallListener falllisten = new FallListener();
 		pm.registerEvent(Event.Type.ENTITY_DAMAGE, falllisten, Priority.Low, this);
 		
 	}

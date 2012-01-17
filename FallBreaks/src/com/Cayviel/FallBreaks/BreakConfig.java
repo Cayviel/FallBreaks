@@ -6,12 +6,18 @@ import org.bukkit.util.config.Configuration;
 
 public class BreakConfig{
 
-    public String directory;
-    public File configFile;
-    public static boolean bootmining;
-    public static boolean bootreq;
-    public static boolean boottier;
+    public static String directory;
+    public static File configFile;
     
+    public static boolean breakReqBootTier;
+    public static boolean breakReqDamageTier;
+    public static boolean breakReqBoots;
+    public static boolean dropReqBootTier;
+    public static boolean dropEnabled;
+    public static boolean dropSimPunch;
+    
+	
+	
 	BreakConfig(File conf, String dir){
 		directory = dir;
 		configFile = conf;
@@ -37,7 +43,7 @@ public class BreakConfig{
        config.save();
    }
 
-   private Configuration load(){
+   private static Configuration load(){
 
        try {
            Configuration config = new Configuration(configFile);
@@ -52,27 +58,38 @@ public class BreakConfig{
    
    private void addDefaults(){
     FallBreaks.log.info("Generating Config File...");
-    write("Boots.Required To Break", true);
-    write("Boots.Tiered Break Requirement", true);
-    write("Boots.Boot Mining", true);
-    write("Break On Fall.DEFAULT",false);
-    write("Break On Fall.GLASS",true);
-    write("Break On Fall.ICE",true);
+
+    write("Drops.Enabled", true);
+    write("Drops.Lowest Tier Only", false);
+    write("Drops.Requirements.Tiered Boots", true);
+    write("Break.Requirements.Tiered Boots", true);
+    write("Break.Requirements.Tiered Damage", true);
+    write("Break.Requirements.Boots", true);
+    
+    write("Breakables.DEFAULT",false);
+    write("Breakables.GLASS",true);
+    write("Breakables.ICE",true);
     FallBreaks.log.info("Loading Config File...");
    }
    
-   private void loadkeys(){
+   private static void loadkeys(){
+	   
        Configuration config = load();
-	   bootreq = config.getBoolean("Boots.Required To Break", true);
-	   bootmining = config.getBoolean("Boots.Boot Mining", true);	   
-	   boottier = config.getBoolean("Boots.Tiered Break Requirement", true);
+       
+       dropEnabled = config.getBoolean("Drops.Enabled", true);
+       dropSimPunch = config.getBoolean("Boots.Lowest Tier Only", false);
+       dropReqBootTier = config.getBoolean("Break.Requirements.Tiered Boots", true);
+       breakReqBootTier = config.getBoolean("Break.Requirements.Tiered Boots", true);
+       breakReqDamageTier = config.getBoolean("Break.Requirements.Tiered Damage", true);
+       breakReqBoots = config.getBoolean("Break.Requirements.Boots", true);
+   
    }
-   public boolean getdefaultbreak(){
+   public static boolean getdefaultbreak(){
        Configuration config = load();
        return config.getBoolean("Break On Fall.DEFAULT",false);
    }
    
-   public boolean getbreak(String materialname){
+   public static boolean getbreak(String materialname){
        Configuration config = load();
        return config.getBoolean("Break On Fall."+materialname,getdefaultbreak());
    }
